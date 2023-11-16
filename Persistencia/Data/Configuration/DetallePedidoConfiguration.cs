@@ -9,8 +9,8 @@ public class DetallePedidoConfiguration : IEntityTypeConfiguration<DetallePedido
 {
     public void Configure(EntityTypeBuilder<DetallePedido> builder)
     {
-        builder.ToTable("detalle_Pedido");
-        
+        builder.ToTable("detallepedido");
+        //builder.HasKey(d => d.Id = new { d.Codigo_pedido, d.Codigo_producto });
         builder.HasKey(d => new { d.Codigo_pedido, d.Codigo_producto }); // Definir clave primaria compuesta
         //builder.HasNoKey();
 

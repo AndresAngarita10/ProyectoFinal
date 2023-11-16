@@ -103,6 +103,8 @@ namespace Persistencia.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     nombre = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    GamaIdFk = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     dimensiones = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     proveedor = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true)
@@ -111,9 +113,7 @@ namespace Persistencia.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     cantidad_en_stock = table.Column<short>(type: "smallint", nullable: false),
                     precio_venta = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
-                    precio_proveedor = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
-                    GamaIdFk = table.Column<string>(type: "varchar(255)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    precio_proveedor = table.Column<decimal>(type: "decimal(15,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,9 +142,9 @@ namespace Persistencia.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Codigo_oficina = table.Column<string>(type: "varchar(255)", nullable: true)
+                    Codigo_oficina = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Codigo_jefe = table.Column<int>(type: "int", nullable: false),
+                    Codigo_jefe = table.Column<int>(type: "int", nullable: true),
                     puesto = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -155,13 +155,13 @@ namespace Persistencia.Data.Migrations
                         name: "FK_empleado_empleado_Codigo_jefe",
                         column: x => x.Codigo_jefe,
                         principalTable: "empleado",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_empleado_oficina_Codigo_oficina",
                         column: x => x.Codigo_oficina,
                         principalTable: "oficina",
-                        principalColumn: "codigo_oficina");
+                        principalColumn: "codigo_oficina",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -262,8 +262,8 @@ namespace Persistencia.Data.Migrations
                 name: "pago",
                 columns: table => new
                 {
-                    id_transaccion = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    id_transaccion = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     forma_pago = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     fecha_pago = table.Column<DateOnly>(type: "date", nullable: false),
@@ -310,7 +310,7 @@ namespace Persistencia.Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "detalle_Pedido",
+                name: "detallepedido",
                 columns: table => new
                 {
                     Codigo_pedido = table.Column<int>(type: "int", nullable: false),
@@ -318,19 +318,21 @@ namespace Persistencia.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     cantidad = table.Column<int>(type: "int", maxLength: 3, nullable: false),
                     precio_unidad = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
-                    numero_linea = table.Column<short>(type: "smallint", nullable: false)
+                    numero_linea = table.Column<short>(type: "smallint", nullable: false),
+                    Id = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_detalle_Pedido", x => new { x.Codigo_pedido, x.Codigo_producto });
+                    table.PrimaryKey("PK_detallepedido", x => new { x.Codigo_pedido, x.Codigo_producto });
                     table.ForeignKey(
-                        name: "FK_detalle_Pedido_pedido_Codigo_pedido",
+                        name: "FK_detallepedido_pedido_Codigo_pedido",
                         column: x => x.Codigo_pedido,
                         principalTable: "pedido",
                         principalColumn: "codigo_pedido",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_detalle_Pedido_producto_Codigo_producto",
+                        name: "FK_detallepedido_producto_Codigo_producto",
                         column: x => x.Codigo_producto,
                         principalTable: "producto",
                         principalColumn: "codigo_producto",
@@ -344,8 +346,8 @@ namespace Persistencia.Data.Migrations
                 column: "Codigo_empleado_rep_ventas");
 
             migrationBuilder.CreateIndex(
-                name: "IX_detalle_Pedido_Codigo_producto",
-                table: "detalle_Pedido",
+                name: "IX_detallepedido_Codigo_producto",
+                table: "detallepedido",
                 column: "Codigo_producto");
 
             migrationBuilder.CreateIndex(
@@ -388,7 +390,7 @@ namespace Persistencia.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "detalle_Pedido");
+                name: "detallepedido");
 
             migrationBuilder.DropTable(
                 name: "pago");

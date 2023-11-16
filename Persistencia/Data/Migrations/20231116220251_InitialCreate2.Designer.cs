@@ -11,7 +11,7 @@ using Persistencia;
 namespace Persistencia.Data.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20231116025251_InitialCreate2")]
+    [Migration("20231116220251_InitialCreate2")]
     partial class InitialCreate2
     {
         /// <inheritdoc />
@@ -115,6 +115,9 @@ namespace Persistencia.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("cantidad");
 
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
                     b.Property<short>("Numero_linea")
                         .HasColumnType("smallint")
                         .HasColumnName("numero_linea")
@@ -128,7 +131,7 @@ namespace Persistencia.Data.Migrations
 
                     b.HasIndex("Codigo_producto");
 
-                    b.ToTable("detalle_Pedido", (string)null);
+                    b.ToTable("detallepedido", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.Entities.Empleado", b =>
@@ -147,10 +150,11 @@ namespace Persistencia.Data.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("apellido2");
 
-                    b.Property<int>("Codigo_jefe")
+                    b.Property<int?>("Codigo_jefe")
                         .HasColumnType("int");
 
                     b.Property<string>("Codigo_oficina")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
@@ -264,9 +268,8 @@ namespace Persistencia.Data.Migrations
 
             modelBuilder.Entity("Dominio.Entities.Pago", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id_transaccion");
 
                     b.Property<int>("Codigo_cliente")
@@ -504,13 +507,13 @@ namespace Persistencia.Data.Migrations
                 {
                     b.HasOne("Dominio.Entities.Empleado", "Jefe")
                         .WithMany("Empleados")
-                        .HasForeignKey("Codigo_jefe")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Codigo_jefe");
 
                     b.HasOne("Dominio.Entities.Oficina", "Oficina")
                         .WithMany("Empleados")
-                        .HasForeignKey("Codigo_oficina");
+                        .HasForeignKey("Codigo_oficina")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Jefe");
 

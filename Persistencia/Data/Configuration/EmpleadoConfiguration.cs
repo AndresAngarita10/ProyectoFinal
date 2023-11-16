@@ -49,10 +49,12 @@ public class EmpleadoConfiguration : IEntityTypeConfiguration<Empleado>
 
         builder.HasOne(d => d.Oficina)
         .WithMany(d => d.Empleados)
-        .HasForeignKey(d => d.Codigo_oficina);
+        .HasForeignKey(d => d.Codigo_oficina)
+        .IsRequired();
 
         builder.HasOne(d => d.Jefe)
         .WithMany(d => d.Empleados)
-        .HasForeignKey(d => d.Codigo_jefe);
+        .HasForeignKey(d => d.Codigo_jefe)
+        .IsRequired(false);
     }
 }
