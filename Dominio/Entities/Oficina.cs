@@ -10,4 +10,5 @@ public class Oficina : BaseEntityStr
     public string Telefono { get; set; }
     public string Linea_direccion1 { get; set; }
     public string Linea_direccion2 { get; set; }
+    public ICollection<Empleado> Empleados { get; set; }
 }
