@@ -25,6 +25,24 @@ public class ClienteController : BaseApiController
         var entidad = await unitofwork.Clientes.GetAllAsync();
         return mapper.Map<List<ClienteDto>>(entidad);
     }
+    
+    [HttpGet("consulta1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoClientesEspañones()
+    {
+        var entidad = await unitofwork.Clientes.ListadoClientesEspañones();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta3")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoClientesPagos2008()
+    {
+        var entidad = await unitofwork.Clientes.ListadoClientesPagos2008();
+        return mapper.Map<List<object>>(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
