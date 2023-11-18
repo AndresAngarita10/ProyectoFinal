@@ -26,6 +26,43 @@ public class EmpleadoController : BaseApiController
         return mapper.Map<List<EmpleadoDto>>(entidad);
     }
 
+
+    [HttpGet("consulta17")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoEmpleadoConJefes17()
+    {
+        var entidad = await unitofwork.Empleados.ListadoEmpleadoConJefes17();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta22")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoEmpleadoSinCliente22()
+    {
+        var entidad = await unitofwork.Empleados.ListadoEmpleadoSinCliente22();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta23")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoEmpleadoSinClienteNiOficina23()
+    {
+        var entidad = await unitofwork.Empleados.ListadoEmpleadoSinClienteNiOficina23();
+        return mapper.Map<List<object>>(entidad);
+    }
+
+    [HttpGet("consulta26")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoEmpleadoSinOficinaConClienteGamaFrutales26()
+    {
+        var entidad = await unitofwork.Empleados.ListadoEmpleadoSinOficinaConClienteGamaFrutales26();
+        return mapper.Map<List<object>>(entidad);
+    }
+
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

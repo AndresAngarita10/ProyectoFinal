@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistencia.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate2 : Migration
+    public partial class InitialCreate3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -243,7 +243,7 @@ namespace Persistencia.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     codigo_postal = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Codigo_empleado_rep_ventas = table.Column<int>(type: "int", nullable: false),
+                    Codigo_empleado_rep_ventas = table.Column<int>(type: "int", nullable: true),
                     limite_credito = table.Column<decimal>(type: "decimal(15,2)", nullable: false)
                 },
                 constraints: table =>
@@ -253,8 +253,7 @@ namespace Persistencia.Data.Migrations
                         name: "FK_cliente_empleado_Codigo_empleado_rep_ventas",
                         column: x => x.Codigo_empleado_rep_ventas,
                         principalTable: "empleado",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -290,7 +289,7 @@ namespace Persistencia.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     fecha_pedido = table.Column<DateOnly>(type: "date", nullable: false),
                     fecha_esperada = table.Column<DateOnly>(type: "date", nullable: false),
-                    fecha_entrega = table.Column<DateOnly>(type: "date", nullable: false),
+                    fecha_entrega = table.Column<DateOnly>(type: "date", nullable: true),
                     estado = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     comentarios = table.Column<string>(type: "text", maxLength: 250, nullable: true)

@@ -47,4 +47,33 @@ los de mayor precio. */
           })
           .ToListAsync();
     }
+
+    /* 24. Devuelve un listado de los productos que nunca han aparecido en un 
+    pedido. */
+    public async Task<IEnumerable<object>> ProductosNuncaEnPedidos24()
+    {
+        return await _context.Productos
+        .Include(p => p.DetallePedidos)
+        .Where(p => !p.DetallePedidos.Any())
+        .Select(prod => new{
+            prod.Id,
+            prod.Nombre
+        }).ToListAsync();
+    }
+
+    /* 25.  Devuelve un listado de los productos que nunca han aparecido en un 
+pedido. El resultado debe mostrar el nombre, la descripción y la imagen del 
+producto. */
+    public async Task<IEnumerable<object>> ProductosNuncaEnPedidosConNombreEImagen25()
+    {
+        return await _context.Productos
+        .Include(p => p.DetallePedidos)
+        .Where(p => !p.DetallePedidos.Any())
+        .Select(prod => new{
+            prod.Id,
+            prod.Nombre,
+            prod.Descripcion,
+            prod.GamaProducto.Imagen   
+        }).ToListAsync();
+    }
 }

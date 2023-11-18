@@ -34,6 +34,24 @@ public class ProductoController : BaseApiController
         var entidad = await unitofwork.Productos.ListProductosGammaOrnamentales();
         return mapper.Map<List<object>>(entidad);
     }
+    
+    [HttpGet("consulta24")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductosNuncaEnPedidos24()
+    {
+        var entidad = await unitofwork.Productos.ProductosNuncaEnPedidos24();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta25")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductosNuncaEnPedidosConNombreEImagen25()
+    {
+        var entidad = await unitofwork.Productos.ProductosNuncaEnPedidosConNombreEImagen25();
+        return mapper.Map<List<object>>(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

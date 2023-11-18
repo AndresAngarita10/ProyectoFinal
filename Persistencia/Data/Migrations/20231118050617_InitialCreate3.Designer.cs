@@ -11,8 +11,8 @@ using Persistencia;
 namespace Persistencia.Data.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20231116220251_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20231118050617_InitialCreate3")]
+    partial class InitialCreate3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace Persistencia.Data.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("ciudad");
 
-                    b.Property<int>("Codigo_empleado_rep_ventas")
+                    b.Property<int?>("Codigo_empleado_rep_ventas")
                         .HasColumnType("int");
 
                     b.Property<string>("Codigo_postal")
@@ -317,7 +317,7 @@ namespace Persistencia.Data.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("estado");
 
-                    b.Property<DateOnly>("Fecha_entrega")
+                    b.Property<DateOnly?>("Fecha_entrega")
                         .HasColumnType("date")
                         .HasColumnName("fecha_entrega");
 
@@ -477,9 +477,7 @@ namespace Persistencia.Data.Migrations
                 {
                     b.HasOne("Dominio.Entities.Empleado", "Empleado")
                         .WithMany("Clientes")
-                        .HasForeignKey("Codigo_empleado_rep_ventas")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Codigo_empleado_rep_ventas");
 
                     b.Navigation("Empleado");
                 });
