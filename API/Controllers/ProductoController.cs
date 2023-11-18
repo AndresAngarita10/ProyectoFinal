@@ -25,6 +25,15 @@ public class ProductoController : BaseApiController
         var entidad = await unitofwork.Productos.GetAllAsync();
         return mapper.Map<List<ProductoDto>>(entidad);
     }
+    
+    [HttpGet("consulta10")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListProductosGammaOrnamentales()
+    {
+        var entidad = await unitofwork.Productos.ListProductosGammaOrnamentales();
+        return mapper.Map<List<object>>(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

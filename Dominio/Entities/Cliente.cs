@@ -14,7 +14,7 @@ public class Cliente : BaseEntityInt
     public string Region { get; set; }
     public string Pais { get; set; }
     public string Codigo_postal { get; set; }
-    public int Codigo_empleado_rep_ventas { get; set; }
+    public int? Codigo_empleado_rep_ventas { get; set; }
     public  Empleado Empleado { get; set; }
     public decimal Limite_credito { get; set; }
     public ICollection<Pedido> Pedidos { get; set; }

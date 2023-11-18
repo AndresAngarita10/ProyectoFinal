@@ -94,7 +94,24 @@ tiempo. */
            .ToListAsync();
     }
 
-   
+/*  7 Devuelve un listado de todos los pedidos que han sido entregados en el 
+mes de enero de cualquier año. */
+    public async Task<IEnumerable<object>> PedidosEntregadosEnEnero()
+    {
+        return await _context.Pedidos
+          .Include(p => p.Cliente)
+          .Where(p => p.Estado.ToLower().Equals("entregado") && p.Fecha_entrega.Value.Month == 1)
+          .Select(pedido => new
+             {
+                 codigo_pedido = pedido.Id,
+                 codigo_cliente = pedido.Codigo_cliente,
+                 nombre_cliente = pedido.Cliente.Nombre_cliente,
+                 fecha_esperada = pedido.Fecha_esperada,
+                 fecha_entrega = pedido.Fecha_entrega,
+                 estado = pedido.Estado
+             })
+          .ToListAsync();
+    }
 
 
 }

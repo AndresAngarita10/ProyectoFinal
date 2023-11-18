@@ -83,6 +83,7 @@ public class ClienteConfiguration: IEntityTypeConfiguration<Cliente>
 
         builder.HasOne(d => d.Empleado)
         .WithMany(d => d.Clientes)
-        .HasForeignKey(d => d.Codigo_empleado_rep_ventas);
+        .HasForeignKey(d => d.Codigo_empleado_rep_ventas)
+        .IsRequired(false);
     }
 }

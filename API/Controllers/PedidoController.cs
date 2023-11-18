@@ -62,6 +62,15 @@ public class PedidoController : BaseApiController
         var entidad = await unitofwork.Pedidos.PedidosRechazadosEn2009();
         return mapper.Map<List<object>>(entidad);
     }
+    
+    [HttpGet("consulta7")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> PedidosEntregadosEnEnero()
+    {
+        var entidad = await unitofwork.Pedidos.PedidosEntregadosEnEnero();
+        return mapper.Map<List<object>>(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

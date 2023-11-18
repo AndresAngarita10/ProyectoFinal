@@ -25,6 +25,24 @@ public class PagoController : BaseApiController
         var entidad = await unitofwork.Pagos.GetAllAsync();
         return mapper.Map<List<PagoDto>>(entidad);
     }
+    
+    [HttpGet("consulta8")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoConPagos2008YPaypal()
+    {
+        var entidad = await unitofwork.Pagos.ListadoConPagos2008YPaypal();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta9")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoConTodasLasFormasDePago()
+    {
+        var entidad = await unitofwork.Pagos.ListadoConTodasLasFormasDePago();
+        return mapper.Map<List<object>>(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

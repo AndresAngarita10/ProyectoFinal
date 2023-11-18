@@ -43,6 +43,42 @@ public class ClienteController : BaseApiController
         var entidad = await unitofwork.Clientes.ListadoClientesPagos2008();
         return mapper.Map<List<object>>(entidad);
     }
+    
+    [HttpGet("consulta11")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoClientesMadrid()
+    {
+        var entidad = await unitofwork.Clientes.ListadoClientesMadrid();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta12")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoClientesRepVentas()
+    {
+        var entidad = await unitofwork.Clientes.ListadoClientesRepVentas();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta13")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoClientesRepVentasPagos()
+    {
+        var entidad = await unitofwork.Clientes.ListadoClientesRepVentasPagos();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta14")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ListadoClientesRepVentasNoPagos()
+    {
+        var entidad = await unitofwork.Clientes.ListadoClientesRepVentasNoPagos();
+        return mapper.Map<List<object>>(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

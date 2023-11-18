@@ -17,4 +17,7 @@ tiempo. */
     public Task<IEnumerable<object>> DosDiasAntesFechaEsperada();
     //6. devuelve un listado de todos los pedidos que fueron rechazados en 2009.
     public Task<IEnumerable<object>> PedidosRechazadosEn2009();
+    /*  7 Devuelve un listado de todos los pedidos que han sido entregados en el 
+mes de enero de cualquier año. */
+    public Task<IEnumerable<object>> PedidosEntregadosEnEnero();
 }
