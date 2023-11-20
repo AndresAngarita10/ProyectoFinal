@@ -83,35 +83,151 @@ tiempo. */
            .Include(p => p.Cliente)
            .Where(p => p.Estado.ToLower().Equals("rechazado") && p.Fecha_entrega.Value.Year == 2009)
            .Select(pedido => new
-             {
-                 codigo_pedido = pedido.Id,
-                 codigo_cliente = pedido.Codigo_cliente,
-                 nombre_cliente = pedido.Cliente.Nombre_cliente,
-                 fecha_esperada = pedido.Fecha_esperada,
-                 fecha_entrega = pedido.Fecha_entrega,
-                 estado = pedido.Estado
-             })
+           {
+               codigo_pedido = pedido.Id,
+               codigo_cliente = pedido.Codigo_cliente,
+               nombre_cliente = pedido.Cliente.Nombre_cliente,
+               fecha_esperada = pedido.Fecha_esperada,
+               fecha_entrega = pedido.Fecha_entrega,
+               estado = pedido.Estado
+           })
            .ToListAsync();
     }
 
-/*  7 Devuelve un listado de todos los pedidos que han sido entregados en el 
-mes de enero de cualquier año. */
+    /*  7 Devuelve un listado de todos los pedidos que han sido entregados en el 
+    mes de enero de cualquier año. */
     public async Task<IEnumerable<object>> PedidosEntregadosEnEnero()
     {
         return await _context.Pedidos
           .Include(p => p.Cliente)
           .Where(p => p.Estado.ToLower().Equals("entregado") && p.Fecha_entrega.Value.Month == 1)
           .Select(pedido => new
-             {
-                 codigo_pedido = pedido.Id,
-                 codigo_cliente = pedido.Codigo_cliente,
-                 nombre_cliente = pedido.Cliente.Nombre_cliente,
-                 fecha_esperada = pedido.Fecha_esperada,
-                 fecha_entrega = pedido.Fecha_entrega,
-                 estado = pedido.Estado
-             })
+          {
+              codigo_pedido = pedido.Id,
+              codigo_cliente = pedido.Codigo_cliente,
+              nombre_cliente = pedido.Cliente.Nombre_cliente,
+              fecha_esperada = pedido.Fecha_esperada,
+              fecha_entrega = pedido.Fecha_entrega,
+              estado = pedido.Estado
+          })
           .ToListAsync();
     }
+
+    /* 32. ¿Cuántos pedidos hay en cada estado? Ordena el resultado de forma 
+descendente por el número de pedidos. */
+    public async Task<IEnumerable<object>> NumeroPedidosCadaEstado32()
+    {
+        return await _context.Pedidos
+        .GroupBy(p => p.Estado)
+        .Select(pe => new
+        {
+            pe.Key,
+            cantidad = pe.Count()
+        }).ToListAsync();
+    }
+
+    /* 38. Calcula el número de productos diferentes que hay en cada uno de los 
+pedidos. */
+    public async Task<IEnumerable<object>> NumeroProductosPedidos38()
+    {
+        return await _context.DetallePedidos
+            .GroupBy(detalle => detalle.Codigo_pedido)
+            .Select(pedido => new
+            {
+                CodigoPedido = pedido.Key,
+                NumeroProductosDiferentes = pedido.GroupBy(detalle => detalle.Codigo_producto).Count()
+            })
+            .ToListAsync();
+    }
+
+    /* 39. Calcula la suma de la cantidad total de todos los productos que aparecen en 
+cada uno de los pedidos. */
+    public async Task<IEnumerable<object>> CantidadTotalProductosPedidos39()
+    {
+        return await _context.DetallePedidos
+           .GroupBy(detalle => detalle.Codigo_pedido)
+           .Select(pedido => new
+           {
+               CodigoPedido = pedido.Key,
+               CantidadTotalProductos = pedido.Sum(detalle => detalle.Cantidad)
+           })
+           .ToListAsync();
+    }
+
+    /* 40. Devuelve un listado de los 20 productos más vendidos y el número total de 
+unidades que se han vendido de cada uno. El listado deberá estar ordenado 
+por el número total de unidades vendidas.
+ */
+    public async Task<IEnumerable<object>> ProductosMasVendidos40()
+    {
+        return await _context.DetallePedidos
+            .GroupBy(detalle => detalle.Codigo_producto)
+            .Select(producto => new
+            {
+                CodigoProducto = producto.Key,
+                NombreProducto = producto.First().Producto.Nombre,
+                TotalUnidadesVendidas = producto.Sum(detalle => detalle.Cantidad)
+            })
+            .OrderByDescending(producto => producto.TotalUnidadesVendidas)
+            .Take(20)
+            .ToListAsync();
+    }
+
+    /* 41.. La misma información que en la pregunta anterior, pero agrupada por 
+código de producto. */
+    public async Task<IEnumerable<object>> ProductosMasVendidosporCodigoProducto41()
+    {
+        return await _context.DetallePedidos
+            .GroupBy(detalle => detalle.Codigo_producto)
+            .Select(producto => new
+            {
+                CodigoProducto = producto.Key,
+                NombreProducto = producto.First().Producto.Nombre,
+                TotalUnidadesVendidas = producto.Sum(detalle => detalle.Cantidad)
+            })
+            .OrderByDescending(producto => producto.TotalUnidadesVendidas)
+            .Take(20)
+            .ToListAsync();
+    }
+
+    /* 42. La misma información que en la pregunta anterior, pero agrupada por 
+código de producto filtrada por los códigos que empiecen por OR */
+    public async Task<IEnumerable<object>> ProductosMasVendidosporCodigoProductoYFiltrada42()
+    {
+        return await _context.DetallePedidos
+            .Where(p => p.Producto.Id.StartsWith("OR"))
+            .GroupBy(detalle => detalle.Codigo_producto)
+            .Select(producto => new
+            {
+                CodigoProducto = producto.Key,
+                NombreProducto = producto.First().Producto.Nombre,
+                TotalUnidadesVendidas = producto.Sum(detalle => detalle.Cantidad)
+            })
+            .OrderByDescending(producto => producto.TotalUnidadesVendidas)
+            .Take(20)
+            .ToListAsync();
+    }
+
+    /* 43. Lista las ventas totales de los productos que hayan facturado más de 3000 
+euros. Se mostrará el nombre, unidades vendidas, total facturado y total 
+facturado con impuestos (21% IVA). */
+    public async Task<IEnumerable<object>> ProductosMasVendidos43()
+    {
+        return await _context.DetallePedidos
+           .GroupBy(detalle => detalle.Codigo_producto)
+           .Where(producto => producto.Sum(detalle => detalle.Cantidad * detalle.Precio_unidad) > 3000)
+           .Select(producto => new
+           {
+               CodigoProducto = producto.Key,
+               NombreProducto = producto.First().Producto.Nombre,
+               TotalUnidadesVendidas = producto.Sum(detalle => detalle.Cantidad),
+               TotalFacturado = Convert.ToDouble(producto.Sum(detalle => detalle.Cantidad * detalle.Precio_unidad)),
+               TotalFacturadoConImpuestos = Convert.ToDouble(producto.Sum(detalle => (Convert.ToDecimal(detalle.Cantidad) * detalle.Precio_unidad)) * Convert.ToDecimal(1.21))
+           })
+           .OrderByDescending(producto => producto.TotalFacturadoConImpuestos)
+           .ToListAsync();
+    }
+
 
 
 }

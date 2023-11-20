@@ -54,4 +54,31 @@ public class PagoRepository : GenericRepoStr<Pago>, IPago
             })
             .ToListAsync();
     }
+
+    /* 31. ¿Cuál fue el pago medio en 2009? */
+    public async Task<object> PagoMedioEn200931()
+    {
+        var pagoMedio = await _context.Pagos
+            .Where(p => p.Fecha_pago.Year == 2009)
+            .AverageAsync(p => p.Total);
+        return new
+        {
+            PagoMedio = pagoMedio
+        };
+    }
+
+    /* 44. Muestre la suma total de todos los pagos que se realizaron para cada uno 
+de los años que aparecen en la tabla pagos. */
+    public async Task<IEnumerable<object>> SumaTotalDeTodosLosPagosParaTodosLosAños44()
+    {
+        return await _context.Pagos
+           .GroupBy(p => p.Fecha_pago.Year)
+           .Select(pago => new
+            {
+                año = pago.Key,
+                SumaTotal = pago.Sum(p => p.Total)
+            })
+           .ToListAsync();
+    }
+
 }

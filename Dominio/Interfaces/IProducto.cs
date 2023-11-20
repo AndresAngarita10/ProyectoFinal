@@ -17,4 +17,15 @@ los de mayor precio. */
 pedido. El resultado debe mostrar el nombre, la descripción y la imagen del 
 producto. */
     public Task<IEnumerable<object>> ProductosNuncaEnPedidosConNombreEImagen25();
+    /* 46. Devuelve el nombre del producto que tenga el precio de venta más caro */
+    public Task<object> ProductoPrecioVentaMAsCaro46 ();
+    /* 47. Devuelve el nombre del producto del que se han vendido más unidades. 
+    (Tenga en cuenta que tendrá que calcular cuál es el número total de 
+    unidades que se han vendido de cada producto a partir de los datos de la 
+    tabla detalle_pedido)
+    */
+    public Task<object> ProductoMasVendidos47();
+    /* 50. Devuelve el nombre del producto que tenga el precio de venta más caro.
+ */
+    public Task<object> ProductoPrecioVentaMasCaro50();
 }

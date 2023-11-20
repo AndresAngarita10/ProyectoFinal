@@ -115,4 +115,45 @@ la compra de algún producto de la gama Frutales. */
 
         return oficinas;
     }
+
+   /* 28 . Devuelve un listado con los datos de los empleados que no tienen clientes 
+asociados y el nombre de su jefe asociado. */
+    public async Task<IEnumerable<object>> ListadoEmpleadoSinClienteYJefe28()
+    {
+        return await _context.Empleados
+        .Where(e => !e.Clientes.Any())
+        .Select(em => new 
+        {
+            em.Id,
+            em.Nombre,
+            em.Apellido1,
+            em.Apellido2,
+            nombre_jefe = em.Jefe.Nombre
+        }).ToListAsync();
+    }
+
+   /*  29. ¿Cuántos empleados hay en la compañía? */
+    public async Task<int> NumeroEmpleados29()
+    {
+        var numeroEmpleados = await _context.Empleados
+            .Select(e => e.Nombre)
+            .CountAsync();
+        Console.WriteLine($"Número de empleados: {numeroEmpleados}");
+        return numeroEmpleados;
+    }
+
+    /* 35. Devuelve el nombre de los representantes de ventas y el número de clientes 
+al que atiende cada uno. */
+    public async Task<IEnumerable<object>> NombreRepVentasConNumClientes35()
+    {
+        return await _context.Empleados
+          .Where(e => e.Clientes.Any())
+          .Select(e => new
+            {
+                nombre_rep_ventas = e.Nombre,
+                numero_clientes = e.Clientes.Count
+            })
+          .ToListAsync();
+    }
+
 }

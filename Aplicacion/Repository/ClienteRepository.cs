@@ -224,8 +224,8 @@ cada cliente. */
         ;
     }
 
-  /* 20.  Devuelve un listado que muestre solamente los clientes que no han
-    realizado ningún pago. */
+    /* 20.  Devuelve un listado que muestre solamente los clientes que no han
+      realizado ningún pago. */
     public async Task<IEnumerable<Cliente>> ClientesSinPagos20()
     {
         var clientesSinPagos = await _context.Clientes
@@ -240,21 +240,162 @@ cada cliente. */
         return clientesSinPagos;
     }
 
-   /*  21. Devuelve un listado que muestre los clientes que no han realizado ningún 
-pago y los que no han realizado ningún pedido. */
-    public async Task<IEnumerable<object>> ClientesQueNoHanPagadoNiHanHechoPedido21 ()
+    /*  21. Devuelve un listado que muestre los clientes que no han realizado ningún 
+ pago y los que no han realizado ningún pedido. */
+    public async Task<IEnumerable<object>> ClientesQueNoHanPagadoNiHanHechoPedido21()
     {
         return await _context.Clientes
         .Include(p => p.Pagos)
         .Include(p => p.Pedidos)
         .Where(p => !p.Pagos.Any())
         .Where(p => !p.Pedidos.Any())
-        .Select(p => new 
+        .Select(p => new
         {
             p.Nombre_cliente
         })
         .ToListAsync();
     }
+
+    /*  27. Devuelve un listado con los clientes que han realizado algún pedido pero no 
+ han realizado ningún pago. */
+    public async Task<IEnumerable<Cliente>> ClientesConPedidoQueNoHanPagado27()
+    {
+        return await _context.Clientes
+        .Where(c => c.Pedidos.Any())
+        .Where(c => !c.Pagos.Any())
+        .ToListAsync();
+    }
+
+    /*  30. ¿Cuántos clientes tiene cada país? */
+    public async Task<object> ClientesPorPais30()
+    {
+        return await _context.Clientes
+        .GroupBy(c => c.Pais)
+        .Select(cl => new
+        {
+            cl.Key,
+            Cantidad = cl.Count()
+        }).ToListAsync();
+    }
+
+    /* 33. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid? */
+    public async Task<object> ClientesConDomicilioEnMadrid33()
+    {
+        return await _context.Clientes
+        .GroupBy(c => c.Ciudad)
+        .Where(c => c.Key.Equals("Madrid"))
+        .Select(cli => new
+        {
+            Ciudad = cli.Key,
+            Cantidad = cli.Count()
+        }).FirstOrDefaultAsync();
+    }
+
+    /* 34. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan por M? */
+    public async Task<IEnumerable<object>> ClientesPorCiudadesConMInicial34()
+    {
+        return await _context.Clientes
+        .GroupBy(c => c.Ciudad)
+        .Where(c => c.Key.ToLower().StartsWith("m"))
+        .Select(cli => new
+        {
+            Ciudad = cli.Key,
+            Cantidad = cli.Count()
+        }).ToListAsync();
+    }
+
+    /* 36. Calcula el número de clientes que no tiene asignado representante de 
+ ventas. */
+    public async Task<object> NumeroClientesSinRepresentanteVentas36()
+    {
+        var NClientes = await _context.Clientes
+        .Where(cl => cl.Codigo_empleado_rep_ventas == null)
+       .CountAsync();
+        return new
+        {
+            clientes_sin_representante = NClientes
+        };
+    }
+
+    /* 37.. Calcula la fecha del primer y último pago realizado por cada uno de los 
+clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente. */
+    public async Task<IEnumerable<object>> PrimerYUltimoPagoPorCliente37()
+    {
+        var resultados = await _context.Clientes
+            .Select(cliente => new
+            {
+                CodigoCliente = cliente.Id,
+                Nombre = cliente.Nombre_cliente,
+                PrimerPago = cliente.Pagos.OrderBy(p => p.Fecha_pago).First(),
+                UltimoPago = cliente.Pagos.OrderByDescending(p => p.Fecha_pago).First()
+            })
+            .ToListAsync();
+
+        return resultados;
+    }
+
+    /* 45. Devuelve el nombre del cliente con mayor límite de crédito. */
+    public async Task<object> ClienteConMayorLimiteCredito45()
+    {
+        return await _context.Clientes
+       .OrderByDescending(c => c.Limite_credito)
+       .Select(c => new
+       {
+           nombre = c.Nombre_cliente
+       })
+       .FirstOrDefaultAsync();
+    }
+
+    /* 48. Los clientes cuyo límite de crédito sea mayor que los pagos que haya 
+realizado. (Sin utilizar INNER JOIN). */
+    public async Task<IEnumerable<object>> ClienteConMayorLimiteCreditoALosPagos48()
+    {
+        return await _context.Clientes
+        .Where(c => c.Pagos.Any())
+        .Where(p => p.Pagos.Sum(p => p.Total) < p.Limite_credito)
+        .Select(c => new
+        {
+            nombre = c.Nombre_cliente,
+            pagos = c.Pagos.Sum(p => p.Total),
+            limite_creidot = c.Limite_credito
+        })
+        .ToListAsync();
+    }
+
+    /* 49. Devuelve el nombre del cliente con mayor límite de crédito. */
+    public async Task<object> ClienteConMayorLimiteCredito49()
+    {
+        return await _context.Clientes
+      .OrderByDescending(c => c.Limite_credito)
+      .Select(c => new
+       {
+           nombre = c.Nombre_cliente
+       })
+      .FirstOrDefaultAsync();
+    }
+
+    /* 51. Devuelve un listado que muestre solamente los clientes que no han 
+    realizado ningún pago.
+    */
+    public async Task<IEnumerable<object>> ClienteNoHanHechoPagos51()
+    {
+        return await _context.Clientes
+       .Where(c =>!c.Pagos.Any())
+       .OrderBy(c => c.Limite_credito)
+       .ToListAsync();
+       
+    }
+
+    /* 52. Devuelve un listado que muestre solamente los clientes que sí han realizado 
+algún pago. */
+    public async Task<IEnumerable<object>> ClienteSiHanHechoPagos52()
+    {
+        return await _context.Clientes
+       .Where(c =>c.Pagos.Any())
+       .OrderBy(c => c.Limite_credito)
+       .ToListAsync();
+    }
+
 
 
 }

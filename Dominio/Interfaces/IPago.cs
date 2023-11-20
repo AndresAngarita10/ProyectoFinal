@@ -12,4 +12,9 @@ public interface IPago : IGenericRepoStr<Pago>
     tabla pago. Tenga en cuenta que no deben aparecer formas de pago 
     repetidas. */
     public Task<IEnumerable<object>> ListadoConTodasLasFormasDePago();
+    /* 31. ¿Cuál fue el pago medio en 2009? */
+    public  Task<object> PagoMedioEn200931 ();
+     /* 44. Muestre la suma total de todos los pagos que se realizaron para cada uno 
+de los años que aparecen en la tabla pagos. */
+    public Task<IEnumerable<object>> SumaTotalDeTodosLosPagosParaTodosLosAños44();
 }

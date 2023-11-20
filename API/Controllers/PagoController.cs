@@ -44,6 +44,24 @@ public class PagoController : BaseApiController
         return mapper.Map<List<object>>(entidad);
     }
 
+    [HttpGet("consulta31")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> PagoMedioEn200931()
+    {
+        var entidad = await unitofwork.Pagos.PagoMedioEn200931();
+        return Ok(entidad);
+    }
+    
+    [HttpGet("consulta44")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> SumaTotalDeTodosLosPagosParaTodosLosAños44()
+    {
+        var entidad = await unitofwork.Pagos.SumaTotalDeTodosLosPagosParaTodosLosAños44();
+        return mapper.Map<List<object>>(entidad);
+    }
+
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

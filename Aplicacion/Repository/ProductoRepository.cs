@@ -9,8 +9,8 @@ namespace Aplicacion.Repository;
 public class ProductoRepository : GenericRepoStr<Producto>, IProducto
 {
     protected readonly ApiContext _context;
-    
-    public ProductoRepository(ApiContext context) : base (context)
+
+    public ProductoRepository(ApiContext context) : base(context)
     {
         _context = context;
     }
@@ -24,26 +24,26 @@ public class ProductoRepository : GenericRepoStr<Producto>, IProducto
     public override async Task<Producto> GetByIdAsync(string id)
     {
         return await _context.Productos
-        .FirstOrDefaultAsync(p =>  p.Id.Equals(id));
+        .FirstOrDefaultAsync(p => p.Id.Equals(id));
     }
 
-   /*  10. Devuelve un listado con todos los productos que pertenecen a la 
-gama Ornamentales y que tienen más de 100 unidades en stock. El listado 
-deberá estar ordenado por su precio de venta, mostrando en primer lugar 
-los de mayor precio. */
-    public async Task<IEnumerable<object>> ListProductosGammaOrnamentales ()
+    /*  10. Devuelve un listado con todos los productos que pertenecen a la 
+ gama Ornamentales y que tienen más de 100 unidades en stock. El listado 
+ deberá estar ordenado por su precio de venta, mostrando en primer lugar 
+ los de mayor precio. */
+    public async Task<IEnumerable<object>> ListProductosGammaOrnamentales()
     {
         return await _context.Productos
           .Where(p => p.GamaIdFk.ToLower().Equals("ornamentales"))
           .Where(p => p.Cantidad_en_stock > 100)
           .OrderByDescending(p => p.Precio_venta)
-          .Select(prod => new 
+          .Select(prod => new
           {
-            prod.Id,
-            prod.Nombre,
-            prod.Precio_venta,
-            prod.Cantidad_en_stock,
-            prod.GamaIdFk,
+              prod.Id,
+              prod.Nombre,
+              prod.Precio_venta,
+              prod.Cantidad_en_stock,
+              prod.GamaIdFk,
           })
           .ToListAsync();
     }
@@ -55,7 +55,8 @@ los de mayor precio. */
         return await _context.Productos
         .Include(p => p.DetallePedidos)
         .Where(p => !p.DetallePedidos.Any())
-        .Select(prod => new{
+        .Select(prod => new
+        {
             prod.Id,
             prod.Nombre
         }).ToListAsync();
@@ -69,11 +70,46 @@ producto. */
         return await _context.Productos
         .Include(p => p.DetallePedidos)
         .Where(p => !p.DetallePedidos.Any())
-        .Select(prod => new{
+        .Select(prod => new
+        {
             prod.Id,
             prod.Nombre,
             prod.Descripcion,
-            prod.GamaProducto.Imagen   
+            prod.GamaProducto.Imagen
         }).ToListAsync();
+    }
+
+    /* 46. Devuelve el nombre del producto que tenga el precio de venta más caro */
+    public async Task<object> ProductoPrecioVentaMAsCaro46()
+    {
+        return await _context.Productos
+        .OrderByDescending(p => p.Precio_venta)
+        .FirstOrDefaultAsync();
+    }
+
+    /* 47. Devuelve el nombre del producto del que se han vendido más unidades. 
+    (Tenga en cuenta que tendrá que calcular cuál es el número total de 
+    unidades que se han vendido de cada producto a partir de los datos de la 
+    tabla detalle_pedido)
+    */
+    public async Task<object> ProductoMasVendidos47()
+    {
+        return await _context.Productos
+       .Include(p => p.DetallePedidos)
+       .OrderByDescending(p => p.DetallePedidos.Count())
+       .Select(p => new 
+       {
+            nombre = p.Nombre
+       })
+       .FirstOrDefaultAsync();
+    }
+
+    /* 50. Devuelve el nombre del producto que tenga el precio de venta más caro.
+ */
+    public async Task<object> ProductoPrecioVentaMasCaro50()
+    {
+        return await _context.Productos
+        .OrderByDescending(p => p.Precio_venta)
+        .FirstOrDefaultAsync();
     }
 }

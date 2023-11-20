@@ -71,6 +71,69 @@ public class PedidoController : BaseApiController
         var entidad = await unitofwork.Pedidos.PedidosEntregadosEnEnero();
         return mapper.Map<List<object>>(entidad);
     }
+    
+    [HttpGet("consulta32")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> NumeroPedidosCadaEstado32()
+    {
+        var entidad = await unitofwork.Pedidos.NumeroPedidosCadaEstado32();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta38")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> NumeroProductosPedidos38()
+    {
+        var entidad = await unitofwork.Pedidos.NumeroProductosPedidos38();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta39")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> CantidadTotalProductosPedidos39()
+    {
+        var entidad = await unitofwork.Pedidos.CantidadTotalProductosPedidos39();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta40")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductosMasVendidos40()
+    {
+        var entidad = await unitofwork.Pedidos.ProductosMasVendidos40();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta41")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductosMasVendidosporCodigoProducto41()
+    {
+        var entidad = await unitofwork.Pedidos.ProductosMasVendidosporCodigoProducto41();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta42")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductosMasVendidosporCodigoProductoYFiltrada42()
+    {
+        var entidad = await unitofwork.Pedidos.ProductosMasVendidosporCodigoProductoYFiltrada42();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta43")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductosMasVendidos43()
+    {
+        var entidad = await unitofwork.Pedidos.ProductosMasVendidos43();
+        return mapper.Map<List<object>>(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

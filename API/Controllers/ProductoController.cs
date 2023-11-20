@@ -52,6 +52,33 @@ public class ProductoController : BaseApiController
         var entidad = await unitofwork.Productos.ProductosNuncaEnPedidosConNombreEImagen25();
         return mapper.Map<List<object>>(entidad);
     }
+    
+    [HttpGet("consulta46")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductoPrecioVentaMAsCaro46()
+    {
+        var entidad = await unitofwork.Productos.ProductoPrecioVentaMAsCaro46();
+        return Ok(entidad);
+    }
+    
+    [HttpGet("consulta47")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductoMasVendidos47()
+    {
+        var entidad = await unitofwork.Productos.ProductoMasVendidos47();
+        return Ok(entidad);
+    }
+    
+    [HttpGet("consulta50")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductoPrecioVentaMasCaro50()
+    {
+        var entidad = await unitofwork.Productos.ProductoPrecioVentaMasCaro50();
+        return Ok(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

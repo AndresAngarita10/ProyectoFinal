@@ -18,4 +18,12 @@ asociada y los que no tienen un cliente asociado. */
 hayan sido los representantes de ventas de algún cliente que haya realizado 
 la compra de algún producto de la gama Frutales. */
     public Task<IEnumerable<object>> ListadoEmpleadoSinOficinaConClienteGamaFrutales26();
+     /* 28 . Devuelve un listado con los datos de los empleados que no tienen clientes 
+asociados y el nombre de su jefe asociado. */
+    public Task<IEnumerable<object>> ListadoEmpleadoSinClienteYJefe28();
+    /*  29. ¿Cuántos empleados hay en la compañía? */
+    public Task<int> NumeroEmpleados29();
+    /* 35. Devuelve el nombre de los representantes de ventas y el número de clientes 
+al que atiende cada uno. */
+    public Task<IEnumerable<object>> NombreRepVentasConNumClientes35();
 }

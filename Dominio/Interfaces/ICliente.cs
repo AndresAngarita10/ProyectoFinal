@@ -37,10 +37,40 @@ tiempo un pedido. */
     /* 19. Devuelve un listado de las diferentes gamas de producto que ha comprado 
 cada cliente. */
     public Task<IEnumerable<object>> ListadoGamasCompradasPorCliente19();
-     /* 20.  Devuelve un listado que muestre solamente los clientes que no han
-    realizado ningún pago. */
+    /* 20.  Devuelve un listado que muestre solamente los clientes que no han
+   realizado ningún pago. */
     public Task<IEnumerable<Cliente>> ClientesSinPagos20();
     /*  21. Devuelve un listado que muestre los clientes que no han realizado ningún 
 pago y los que no han realizado ningún pedido. */
-    public Task<IEnumerable<object>> ClientesQueNoHanPagadoNiHanHechoPedido21 ();
+    public Task<IEnumerable<object>> ClientesQueNoHanPagadoNiHanHechoPedido21();
+    /*  27. Devuelve un listado con los clientes que han realizado algún pedido pero no 
+han realizado ningún pago. */
+    public Task<IEnumerable<Cliente>> ClientesConPedidoQueNoHanPagado27();
+    /*  30. ¿Cuántos clientes tiene cada país? */
+    public Task<object> ClientesPorPais30();
+    /* 33. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid? */
+    public Task<object> ClientesConDomicilioEnMadrid33();
+    /* 34. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan por M? */
+    public Task<IEnumerable<object>> ClientesPorCiudadesConMInicial34();
+    /* 36. Calcula el número de clientes que no tiene asignado representante de 
+ ventas. */
+    public Task<object> NumeroClientesSinRepresentanteVentas36();
+    /* 37.. Calcula la fecha del primer y último pago realizado por cada uno de los 
+clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente. */
+    public Task<IEnumerable<object>> PrimerYUltimoPagoPorCliente37();
+    /* 45. Devuelve el nombre del cliente con mayor límite de crédito. */
+    public Task<object> ClienteConMayorLimiteCredito45 ();
+    
+    /* 48. Los clientes cuyo límite de crédito sea mayor que los pagos que haya 
+realizado. (Sin utilizar INNER JOIN). */
+    public Task<IEnumerable<object>> ClienteConMayorLimiteCreditoALosPagos48();
+    /* 49. Devuelve el nombre del cliente con mayor límite de crédito. */
+    public Task<object> ClienteConMayorLimiteCredito49();
+     /* 51. Devuelve un listado que muestre solamente los clientes que no han 
+    realizado ningún pago.
+    */
+    public Task<IEnumerable<object>> ClienteNoHanHechoPagos51();
+    /* 52. Devuelve un listado que muestre solamente los clientes que sí han realizado 
+algún pago. */
+    public Task<IEnumerable<object>> ClienteSiHanHechoPagos52();
 }
