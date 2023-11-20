@@ -112,4 +112,17 @@ producto. */
         .OrderByDescending(p => p.Precio_venta)
         .FirstOrDefaultAsync();
     }
+
+    /* 53. Devuelve un listado de los productos que nunca han aparecido en un 
+    pedido */
+    public async Task<IEnumerable<object>> ProductosNuncaEnPedidos53()
+    {
+        return await _context.Productos
+      .Where(p =>!p.DetallePedidos.Any())
+      .Select(prod => new
+        {
+            prod.Id,
+            prod.Nombre
+        }).ToListAsync();
+    }
 }

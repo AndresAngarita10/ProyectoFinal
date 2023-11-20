@@ -79,6 +79,15 @@ public class ProductoController : BaseApiController
         var entidad = await unitofwork.Productos.ProductoPrecioVentaMasCaro50();
         return Ok(entidad);
     }
+    
+    [HttpGet("consulta53")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ProductosNuncaEnPedidos53()
+    {
+        var entidad = await unitofwork.Productos.ProductosNuncaEnPedidos53();
+        return Ok(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

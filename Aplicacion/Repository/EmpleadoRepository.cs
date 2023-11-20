@@ -156,4 +156,43 @@ al que atiende cada uno. */
           .ToListAsync();
     }
 
+    /* 54. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos 
+    empleados que no sean representante de ventas de ningún cliente.
+    */
+    public async Task<IEnumerable<object>> EmpleadosSinClientes54()
+    {
+        return await _context.Empleados
+          .Where(e =>!e.Clientes.Any())
+          .Where(e  => e.Puesto != "Representante Ventas")
+          .Select(e => new
+            {
+                nombre = e.Nombre,
+                apellido1 = e.Apellido1,
+                apellido2 = e.Apellido2,
+                puesto = e.Puesto,
+                extension = e.Extension,
+                oficina = e.Oficina.Id
+            })
+          .ToListAsync();
+    }
+
+    /* 61. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos 
+    empleados que no sean representante de ventas de ningún cliente. */
+    public async Task<IEnumerable<object>> EmpleadosSinClientes61()
+    {
+        return await _context.Empleados
+         .Where(e =>!e.Clientes.Any())
+         .Select(e => new
+            {
+                nombre = e.Nombre,
+                apellido1 = e.Apellido1,
+                apellido2 = e.Apellido2,
+                puesto = e.Puesto,
+                telefono_oficina = e.Oficina.Telefono,
+                oficina = e.Oficina.Id,
+                ciudad_oficina = e.Oficina.Ciudad
+            })
+         .ToListAsync();
+    }
+
 }

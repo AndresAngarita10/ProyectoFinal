@@ -28,4 +28,7 @@ producto. */
     /* 50. Devuelve el nombre del producto que tenga el precio de venta más caro.
  */
     public Task<object> ProductoPrecioVentaMasCaro50();
+    /* 53. Devuelve un listado de los productos que nunca han aparecido en un 
+    pedido */
+    public Task<IEnumerable<object>> ProductosNuncaEnPedidos53();
 }

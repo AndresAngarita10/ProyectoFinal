@@ -73,4 +73,28 @@ realizado. (Sin utilizar INNER JOIN). */
     /* 52. Devuelve un listado que muestre solamente los clientes que sí han realizado 
 algún pago. */
     public Task<IEnumerable<object>> ClienteSiHanHechoPagos52();
+    /* 55. Devuelve un listado que muestre solamente los clientes que no han 
+    realizado ningún pago. */
+    public Task<IEnumerable<object>> ClienteNoHanHechoPagos55();
+    /* 56. Devuelve un listado que muestre solamente los clientes que sí han realizado 
+    algún pago. */
+    public Task<IEnumerable<object>> ClienteSiHanHechoPagos56();
+    /* 57. Devuelve el listado de clientes indicando el nombre del cliente y cuántos 
+    pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no 
+    han realizado ningún pedido. */
+    public Task<IEnumerable<object>> ClientesYPedidos57();
+    /* 58. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008 
+    ordenados alfabéticamente de menor a mayor */
+    public Task<IEnumerable<object>> ClientesYPedidosEn200858();
+    
+    /* 59. Devuelve el nombre del cliente, el nombre y primer apellido de su 
+    representante de ventas y el número de teléfono de la oficina del 
+    representante de ventas, de aquellos clientes que no hayan realizado ningún 
+    pago */
+    public Task<IEnumerable<object>> ClientesYPedidosConRepresentanteVentas59();
+    
+    /* 60. Devuelve el listado de clientes donde aparezca el nombre del cliente, el 
+    nombre y primer apellido de su representante de ventas y la ciudad donde 
+    está su oficina. */
+    public Task<IEnumerable<object>> ClientesYPedidosConRepresentanteVentas60();
 }

@@ -26,4 +26,13 @@ asociados y el nombre de su jefe asociado. */
     /* 35. Devuelve el nombre de los representantes de ventas y el número de clientes 
 al que atiende cada uno. */
     public Task<IEnumerable<object>> NombreRepVentasConNumClientes35();
+    
+    /* 54. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos 
+    empleados que no sean representante de ventas de ningún cliente.
+    */
+    public Task<IEnumerable<object>> EmpleadosSinClientes54();
+    
+    /* 61. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos 
+    empleados que no sean representante de ventas de ningún cliente. */
+    public Task<IEnumerable<object>> EmpleadosSinClientes61();
 }

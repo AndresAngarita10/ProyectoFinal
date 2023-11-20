@@ -232,6 +232,60 @@ public class ClienteController : BaseApiController
         var entidad = await unitofwork.Clientes.ClienteSiHanHechoPagos52();
         return mapper.Map<List<object>>(entidad);
     }
+    
+    [HttpGet("consulta55")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ClienteNoHanHechoPagos55()
+    {
+        var entidad = await unitofwork.Clientes.ClienteNoHanHechoPagos55();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta56")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ClienteSiHanHechoPagos56()
+    {
+        var entidad = await unitofwork.Clientes.ClienteSiHanHechoPagos56();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta57")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ClientesYPedidos57()
+    {
+        var entidad = await unitofwork.Clientes.ClientesYPedidos57();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta58")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ClientesYPedidosEn200858()
+    {
+        var entidad = await unitofwork.Clientes.ClientesYPedidosEn200858();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta59")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ClientesYPedidosConRepresentanteVentas59()
+    {
+        var entidad = await unitofwork.Clientes.ClientesYPedidosConRepresentanteVentas59();
+        return mapper.Map<List<object>>(entidad);
+    }
+    
+    [HttpGet("consulta60")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> ClientesYPedidosConRepresentanteVentas60()
+    {
+        var entidad = await unitofwork.Clientes.ClientesYPedidosConRepresentanteVentas60();
+        return mapper.Map<List<object>>(entidad);
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

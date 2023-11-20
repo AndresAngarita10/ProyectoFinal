@@ -368,9 +368,9 @@ realizado. (Sin utilizar INNER JOIN). */
         return await _context.Clientes
       .OrderByDescending(c => c.Limite_credito)
       .Select(c => new
-       {
-           nombre = c.Nombre_cliente
-       })
+      {
+          nombre = c.Nombre_cliente
+      })
       .FirstOrDefaultAsync();
     }
 
@@ -380,10 +380,10 @@ realizado. (Sin utilizar INNER JOIN). */
     public async Task<IEnumerable<object>> ClienteNoHanHechoPagos51()
     {
         return await _context.Clientes
-       .Where(c =>!c.Pagos.Any())
+       .Where(c => !c.Pagos.Any())
        .OrderBy(c => c.Limite_credito)
        .ToListAsync();
-       
+
     }
 
     /* 52. Devuelve un listado que muestre solamente los clientes que sí han realizado 
@@ -391,11 +391,91 @@ algún pago. */
     public async Task<IEnumerable<object>> ClienteSiHanHechoPagos52()
     {
         return await _context.Clientes
-       .Where(c =>c.Pagos.Any())
+       .Where(c => c.Pagos.Any())
        .OrderBy(c => c.Limite_credito)
        .ToListAsync();
     }
 
+    /* 55. Devuelve un listado que muestre solamente los clientes que no han 
+    realizado ningún pago. */
+    public async Task<IEnumerable<object>> ClienteNoHanHechoPagos55()
+    {
+        return await _context.Clientes
+        .Where(c => !c.Pagos.Any())
+        .OrderBy(c => c.Limite_credito)
+        .ToListAsync();
+    }
 
+    /* 56. Devuelve un listado que muestre solamente los clientes que sí han realizado 
+    algún pago. */
+    public async Task<IEnumerable<object>> ClienteSiHanHechoPagos56()
+    {
+        return await _context.Clientes
+       .Where(c => c.Pagos.Any())
+       .OrderBy(c => c.Limite_credito)
+       .ToListAsync();
+    }
+
+    /* 57. Devuelve el listado de clientes indicando el nombre del cliente y cuántos 
+    pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no 
+    han realizado ningún pedido. */
+    public async Task<IEnumerable<object>> ClientesYPedidos57()
+    {
+        return await _context.Clientes
+        .Include(c => c.Pedidos)
+
+        .Select(c => new
+        {
+            c.Nombre_cliente,
+            pedido = c.Pagos.Count()
+        }).ToListAsync();
+    }
+
+    /* 58. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008 
+    ordenados alfabéticamente de menor a mayor */
+    public async Task<IEnumerable<object>> ClientesYPedidosEn200858()
+    {
+        return await _context.Clientes
+       .Where(c => c.Pedidos.Any(p => p.Fecha_pedido.Year == 2008))
+       .OrderBy(c => c.Nombre_cliente)
+       .ToListAsync();
+    }
+
+    /* 59. Devuelve el nombre del cliente, el nombre y primer apellido de su 
+    representante de ventas y el número de teléfono de la oficina del 
+    representante de ventas, de aquellos clientes que no hayan realizado ningún 
+    pago */
+    public async Task<IEnumerable<object>> ClientesYPedidosConRepresentanteVentas59()
+    {
+        return await _context.Clientes
+      .Where(c => !c.Pagos.Any())
+      //.Where(c => c.Codigo_empleado_rep_ventas!= null)
+      .Select(c => new
+      {
+          c.Nombre_cliente,
+          Representante_nombre = c.Empleado.Nombre,
+          Representante_apellido = c.Codigo_empleado_rep_ventas,
+          Oficina = c.Empleado.Oficina.Id
+      })
+      .ToListAsync();
+    }
+
+    /* 60. Devuelve el listado de clientes donde aparezca el nombre del cliente, el 
+    nombre y primer apellido de su representante de ventas y la ciudad donde 
+    está su oficina. */
+    public async Task<IEnumerable<object>> ClientesYPedidosConRepresentanteVentas60()
+    {
+        return await _context.Clientes
+        .Where(c => c.Codigo_empleado_rep_ventas != null)
+        .Select(c => new
+        {
+            c.Nombre_cliente,
+            Representante_nombre = c.Empleado.Nombre,
+            Representante_apellido = c.Empleado.Apellido1,
+            Oficina = c.Empleado.Oficina.Id,
+            Ciudad = c.Empleado.Oficina.Ciudad
+        })
+        .ToListAsync();
+    }
 
 }
