@@ -27,7 +27,7 @@ public class DetallePedidoRepository : GenericRepoStr<DetallePedido>, IDetallePe
         .FirstOrDefaultAsync(p =>  p.Id.Equals(id));
     }
     
-    public async Task<(int totalRegistros, object registros)> GetByIdAsync(int pageIndez, int pageSize, string search) 
+    public virtual async Task<(int totalRegistros, object registros)> GetAllAsync(int pageIndez, int pageSize, string search) 
     {
         var query = (
              _context.DetallePedidos.AsQueryable()

@@ -5,6 +5,10 @@ namespace Dominio.Interfaces;
 
 public interface IPedido : IGenericRepoInt<Pedido>
 {
+    public abstract Task<(int totalRegistros, object registros)> DistintosEstadosPedido(int pageIndez, int pageSize, string search) ;// 
+
+    public abstract Task<(int totalRegistros, object registros)> ListadoPedidosNoEntregadosATiempo(int pageIndez, int pageSize, string search); // 
+
     //2. Devuelve un listado con los distintos estados por los que puede pasar un pedido.
     public Task<IEnumerable<object>> DistintosEstadosPedido();
     /* 4. Devuelve un listado con el código de pedido, código de cliente, fecha 
@@ -26,13 +30,13 @@ descendente por el número de pedidos. */
     /* 38. Calcula el número de productos diferentes que hay en cada uno de los 
 pedidos. */
     public Task<IEnumerable<object>> NumeroProductosPedidos38();
-     /* 39. Calcula la suma de la cantidad total de todos los productos que aparecen en 
+    /* 39. Calcula la suma de la cantidad total de todos los productos que aparecen en 
 cada uno de los pedidos. */
     public Task<IEnumerable<object>> CantidadTotalProductosPedidos39();
-     /* 40. Devuelve un listado de los 20 productos más vendidos y el número total de 
+    /* 40. Devuelve un listado de los 20 productos más vendidos y el número total de 
 unidades que se han vendido de cada uno. El listado deberá estar ordenado 
 por el número total de unidades vendidas.
- */
+*/
     public Task<IEnumerable<object>> ProductosMasVendidos40();
     /* 41.. La misma información que en la pregunta anterior, pero agrupada por 
 código de producto. */

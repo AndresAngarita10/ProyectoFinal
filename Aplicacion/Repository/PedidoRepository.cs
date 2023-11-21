@@ -37,6 +37,31 @@ public class PedidoRepository : GenericRepoInt<Pedido>, IPedido
                     Estado = grupo.Key
                 }).ToListAsync();
     }
+    public async Task<(int totalRegistros, object registros)> DistintosEstadosPedido(int pageIndez, int pageSize, string search) // 
+    {
+        var query = (
+            _context.Pedidos
+                .GroupBy(c => c.Estado)
+                .Select(grupo => new
+                {
+                    Estado = grupo.Key
+                })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Estado.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Estado);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
 
     /* 4. Devuelve un listado con el código de pedido, código de cliente, fecha 
 esperada y fecha de entrega de los pedidos que no han sido entregados a 
@@ -55,6 +80,36 @@ tiempo. */
                 fecha_entrega = pedido.Fecha_entrega
             }).ToListAsync();
 
+    }
+    public async Task<(int totalRegistros, object registros)> ListadoPedidosNoEntregadosATiempo(int pageIndez, int pageSize, string search) // 22
+    {
+        var query = (
+            _context.Pedidos
+            .Include(p => p.Cliente)
+            .Where(p => p.Fecha_entrega > p.Fecha_esperada)
+            .Select(pedido => new
+            {
+                codigo_Pedido = pedido.Id,
+                codigo_cliente = pedido.Codigo_cliente,
+                nombre_cliente = pedido.Cliente.Nombre_cliente,
+                fecha_esperada = pedido.Fecha_esperada,
+                fecha_entrega = pedido.Fecha_entrega
+            })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.nombre_cliente.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.nombre_cliente);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
     }
 
     /*  5. Devuelve un listado con el código de pedido, código de cliente, fecha 
