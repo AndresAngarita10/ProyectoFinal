@@ -53,6 +53,44 @@ de su jefe y el nombre del jefe de sus jefe. */
         return empleados;
     }
 
+    public async Task<(int totalRegistros, object registros)> ListadoEmpleadoConJefes17(int pageIndez, int pageSize, string search) // 17
+    {
+        var query = (
+             _context.Empleados
+            .Include(e => e.Jefe)
+            .Where(e => e.Codigo_jefe != null && e.Jefe != null && e.Jefe.Jefe != null)
+            .Select(empleado => new
+            {
+                empleado.Id,
+                empleado.Nombre,
+                jefe = new
+                {
+                    empleado.Jefe.Id,
+                    empleado.Jefe.Nombre,
+                    jefe = new
+                    {
+                        empleado.Jefe.Jefe.Id,
+                        empleado.Jefe.Jefe.Nombre
+                    }
+                }
+            })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
+
     /*    22. Devuelve un listado que muestre solamente los empleados que no tienen un 
    cliente asociado junto con los datos de la oficina donde trabajan. */
     public async Task<IEnumerable<object>> ListadoEmpleadoSinCliente22()
@@ -72,6 +110,39 @@ de su jefe y el nombre del jefe de sus jefe. */
            }).ToListAsync();
 
         return empleados;
+    }
+
+    public async Task<(int totalRegistros, object registros)> ListadoEmpleadoSinCliente22(int pageIndez, int pageSize, string search) // 22
+    {
+        var query = (
+            _context.Empleados
+            .Include(e => e.Clientes)
+            .Where(e => !e.Clientes.Any())
+            .Select(empleado => new
+            {
+                empleado.Id,
+                empleado.Nombre,
+                empleado.Clientes,
+                oficina = new
+                {
+                    empleado.Oficina.Id,
+                }
+            })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
     }
 
     /* 23. Devuelve un listado que muestre los empleados que no tienen una oficina 
@@ -116,13 +187,13 @@ la compra de algún producto de la gama Frutales. */
         return oficinas;
     }
 
-   /* 28 . Devuelve un listado con los datos de los empleados que no tienen clientes 
-asociados y el nombre de su jefe asociado. */
+    /* 28 . Devuelve un listado con los datos de los empleados que no tienen clientes 
+ asociados y el nombre de su jefe asociado. */
     public async Task<IEnumerable<object>> ListadoEmpleadoSinClienteYJefe28()
     {
         return await _context.Empleados
         .Where(e => !e.Clientes.Any())
-        .Select(em => new 
+        .Select(em => new
         {
             em.Id,
             em.Nombre,
@@ -132,7 +203,7 @@ asociados y el nombre de su jefe asociado. */
         }).ToListAsync();
     }
 
-   /*  29. ¿Cuántos empleados hay en la compañía? */
+    /*  29. ¿Cuántos empleados hay en la compañía? */
     public async Task<int> NumeroEmpleados29()
     {
         var numeroEmpleados = await _context.Empleados
@@ -149,10 +220,10 @@ al que atiende cada uno. */
         return await _context.Empleados
           .Where(e => e.Clientes.Any())
           .Select(e => new
-            {
-                nombre_rep_ventas = e.Nombre,
-                numero_clientes = e.Clientes.Count
-            })
+          {
+              nombre_rep_ventas = e.Nombre,
+              numero_clientes = e.Clientes.Count
+          })
           .ToListAsync();
     }
 
@@ -162,17 +233,17 @@ al que atiende cada uno. */
     public async Task<IEnumerable<object>> EmpleadosSinClientes54()
     {
         return await _context.Empleados
-          .Where(e =>!e.Clientes.Any())
-          .Where(e  => e.Puesto != "Representante Ventas")
+          .Where(e => !e.Clientes.Any())
+          .Where(e => e.Puesto != "Representante Ventas")
           .Select(e => new
-            {
-                nombre = e.Nombre,
-                apellido1 = e.Apellido1,
-                apellido2 = e.Apellido2,
-                puesto = e.Puesto,
-                extension = e.Extension,
-                oficina = e.Oficina.Id
-            })
+          {
+              nombre = e.Nombre,
+              apellido1 = e.Apellido1,
+              apellido2 = e.Apellido2,
+              puesto = e.Puesto,
+              extension = e.Extension,
+              oficina = e.Oficina.Id
+          })
           .ToListAsync();
     }
 
@@ -181,17 +252,17 @@ al que atiende cada uno. */
     public async Task<IEnumerable<object>> EmpleadosSinClientes61()
     {
         return await _context.Empleados
-         .Where(e =>!e.Clientes.Any())
+         .Where(e => !e.Clientes.Any())
          .Select(e => new
-            {
-                nombre = e.Nombre,
-                apellido1 = e.Apellido1,
-                apellido2 = e.Apellido2,
-                puesto = e.Puesto,
-                telefono_oficina = e.Oficina.Telefono,
-                oficina = e.Oficina.Id,
-                ciudad_oficina = e.Oficina.Ciudad
-            })
+         {
+             nombre = e.Nombre,
+             apellido1 = e.Apellido1,
+             apellido2 = e.Apellido2,
+             puesto = e.Puesto,
+             telefono_oficina = e.Oficina.Telefono,
+             oficina = e.Oficina.Id,
+             ciudad_oficina = e.Oficina.Ciudad
+         })
          .ToListAsync();
     }
 

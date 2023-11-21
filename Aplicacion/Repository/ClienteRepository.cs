@@ -39,6 +39,32 @@ public class ClienteRepository : GenericRepoInt<Cliente>, ICliente
                 })
                 .ToListAsync();
     }
+    public async Task<(int totalRegistros, object registros)> ListadoClientesEspañones(int pageIndez, int pageSize, string search) // 1
+    {
+        var query = (
+             _context.Clientes
+                .Where(p => p.Pais.ToLower() == "spain")
+                .Select(cliente => new
+                {
+                    cliente.Nombre_cliente,
+                    cliente.Pais
+                })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre_cliente.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre_cliente);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
 
     /* 3. Devuelve un listado con el código de cliente de aquellos clientes que 
     realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar 
@@ -54,6 +80,34 @@ public class ClienteRepository : GenericRepoInt<Cliente>, ICliente
                 Nombre = cliente.Cliente.Nombre_cliente
             })
             .ToListAsync();
+    }
+
+    public async Task<(int totalRegistros, object registros)> ListadoClientesPagos2008(int pageIndez, int pageSize, string search) // 3
+    {
+        var query = (
+             _context.Pagos
+            .Include(p => p.Cliente)
+            .Where(p => p.Fecha_pago.Year == 2008)
+            .Select(cliente => new
+            {
+                Codigo = cliente.Codigo_cliente,
+                Nombre = cliente.Cliente.Nombre_cliente
+            })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
     }
 
     /*  11. Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y 

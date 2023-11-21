@@ -6,11 +6,14 @@ public interface ICliente : IGenericRepoInt<Cliente>
 {
 
     public Task<IEnumerable<object>> ListadoClientesEspañones();//consulta 1. Devuelve un listado con el nombre de los todos los clientes españoles
+    public abstract Task<(int totalRegistros,object registros)> ListadoClientesEspañones(int pageIndez, int pageSize, string search) ;// 1
 
     /* 3. Devuelve un listado con el código de cliente de aquellos clientes que 
     realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar 
     aquellos códigos de cliente que aparezcan repetidos. Resuelva la consulta: */
     public Task<IEnumerable<object>> ListadoClientesPagos2008();
+    public abstract Task<(int totalRegistros, object registros)> ListadoClientesPagos2008(int pageIndez, int pageSize, string search); // 3
+
     /*  11. Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y 
 cuyo representante de ventas tenga el código de empleado 11 o 30. */
     public Task<IEnumerable<object>> ListadoClientesMadrid();

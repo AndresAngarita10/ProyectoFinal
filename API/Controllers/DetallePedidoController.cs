@@ -1,11 +1,14 @@
 
 using API.Dtos;
+using API.Helpers.Errors;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 
 public class DetallePedidoController : BaseApiController
 {
@@ -24,6 +27,17 @@ public class DetallePedidoController : BaseApiController
     {
         var entidad = await unitofwork.DetallePedidos.GetAllAsync();
         return mapper.Map<List<DetallePedidoDto>>(entidad);
+    }
+    
+    [HttpGet]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<object>>> GetAllAsync([FromQuery] Params paisParams)
+    {
+        var entidad = await unitofwork.Clientes.GetAllAsync(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+        var listEntidad = mapper.Map<List<object>>(entidad.registros);
+        return new Pager<object>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
 
     [HttpGet("{id}")]
