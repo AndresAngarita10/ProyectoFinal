@@ -25,7 +25,7 @@ la compra de algún producto de la gama Frutales. */
 asociados y el nombre de su jefe asociado. */
     public Task<IEnumerable<object>> ListadoEmpleadoSinClienteYJefe28();
     /*  29. ¿Cuántos empleados hay en la compañía? */
-    public Task<int> NumeroEmpleados29();
+    public Task<object> NumeroEmpleados29();
     /* 35. Devuelve el nombre de los representantes de ventas y el número de clientes 
 al que atiende cada uno. */
     public Task<IEnumerable<object>> NombreRepVentasConNumClientes35();

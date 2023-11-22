@@ -47,6 +47,37 @@ public class ProductoRepository : GenericRepoStr<Producto>, IProducto
           })
           .ToListAsync();
     }
+    public async Task<(int totalRegistros, object registros)> ListProductosGammaOrnamentales(int pageIndez, int pageSize, string search)
+    {
+        var query = (
+            _context.Productos
+            .Where(p => p.GamaIdFk.ToLower().Equals("ornamentales"))
+            .Where(p => p.Cantidad_en_stock > 100)
+            .OrderByDescending(p => p.Precio_venta)
+            .Select(prod => new
+            {
+                prod.Id,
+                prod.Nombre,
+                prod.Precio_venta,
+                prod.Cantidad_en_stock,
+                prod.GamaIdFk,
+            })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
 
     /* 24. Devuelve un listado de los productos que nunca han aparecido en un 
     pedido. */
@@ -60,6 +91,33 @@ public class ProductoRepository : GenericRepoStr<Producto>, IProducto
             prod.Id,
             prod.Nombre
         }).ToListAsync();
+    }
+    public async Task<(int totalRegistros, object registros)> ProductosNuncaEnPedidos24(int pageIndez, int pageSize, string search)
+    {
+        var query = (
+            _context.Productos
+            .Include(p => p.DetallePedidos)
+            .Where(p => !p.DetallePedidos.Any())
+            .Select(prod => new
+            {
+                prod.Id,
+                prod.Nombre
+            })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
     }
 
     /* 25.  Devuelve un listado de los productos que nunca han aparecido en un 
@@ -80,7 +138,7 @@ producto. */
     }
 
     /* 46. Devuelve el nombre del producto que tenga el precio de venta más caro */
-    public async Task<object> ProductoPrecioVentaMAsCaro46()
+    public async Task<Producto> ProductoPrecioVentaMAsCaro46()
     {
         return await _context.Productos
         .OrderByDescending(p => p.Precio_venta)
@@ -97,16 +155,16 @@ producto. */
         return await _context.Productos
        .Include(p => p.DetallePedidos)
        .OrderByDescending(p => p.DetallePedidos.Count())
-       .Select(p => new 
+       .Select(p => new
        {
-            nombre = p.Nombre
+           nombre = p.Nombre
        })
        .FirstOrDefaultAsync();
     }
 
     /* 50. Devuelve el nombre del producto que tenga el precio de venta más caro.
  */
-    public async Task<object> ProductoPrecioVentaMasCaro50()
+    public async Task<Producto> ProductoPrecioVentaMasCaro50()
     {
         return await _context.Productos
         .OrderByDescending(p => p.Precio_venta)
@@ -118,11 +176,11 @@ producto. */
     public async Task<IEnumerable<object>> ProductosNuncaEnPedidos53()
     {
         return await _context.Productos
-      .Where(p =>!p.DetallePedidos.Any())
+      .Where(p => !p.DetallePedidos.Any())
       .Select(prod => new
-        {
-            prod.Id,
-            prod.Nombre
-        }).ToListAsync();
+      {
+          prod.Id,
+          prod.Nombre
+      }).ToListAsync();
     }
 }

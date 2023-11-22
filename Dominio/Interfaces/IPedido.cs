@@ -5,6 +5,8 @@ namespace Dominio.Interfaces;
 
 public interface IPedido : IGenericRepoInt<Pedido>
 {
+    public abstract Task<(int totalRegistros, object registros)> ListadoPedidosNoEntregadosATiempo(int pageIndez, int pageSize, string search);
+    public abstract Task<(int totalRegistros, object registros)> DistintosEstadosPedido(int pageIndez, int pageSize, string search);
     //2. Devuelve un listado con los distintos estados por los que puede pasar un pedido.
     public Task<IEnumerable<object>> DistintosEstadosPedido();
     /* 4. Devuelve un listado con el código de pedido, código de cliente, fecha 

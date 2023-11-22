@@ -423,7 +423,8 @@ realizado. (Sin utilizar INNER JOIN). */
       .OrderByDescending(c => c.Limite_credito)
       .Select(c => new
       {
-          nombre = c.Nombre_cliente
+          nombre = c.Nombre_cliente,
+          limite_credito = c.Limite_credito
       })
       .FirstOrDefaultAsync();
     }
@@ -431,7 +432,7 @@ realizado. (Sin utilizar INNER JOIN). */
     /* 51. Devuelve un listado que muestre solamente los clientes que no han 
     realizado ningún pago.
     */
-    public async Task<IEnumerable<object>> ClienteNoHanHechoPagos51()
+    public async Task<IEnumerable<Cliente>> ClienteNoHanHechoPagos51()
     {
         return await _context.Clientes
        .Where(c => !c.Pagos.Any())
@@ -442,7 +443,7 @@ realizado. (Sin utilizar INNER JOIN). */
 
     /* 52. Devuelve un listado que muestre solamente los clientes que sí han realizado 
 algún pago. */
-    public async Task<IEnumerable<object>> ClienteSiHanHechoPagos52()
+    public async Task<IEnumerable<Cliente>> ClienteSiHanHechoPagos52()
     {
         return await _context.Clientes
        .Where(c => c.Pagos.Any())
@@ -452,7 +453,7 @@ algún pago. */
 
     /* 55. Devuelve un listado que muestre solamente los clientes que no han 
     realizado ningún pago. */
-    public async Task<IEnumerable<object>> ClienteNoHanHechoPagos55()
+    public async Task<IEnumerable<Cliente>> ClienteNoHanHechoPagos55()
     {
         return await _context.Clientes
         .Where(c => !c.Pagos.Any())
@@ -462,7 +463,7 @@ algún pago. */
 
     /* 56. Devuelve un listado que muestre solamente los clientes que sí han realizado 
     algún pago. */
-    public async Task<IEnumerable<object>> ClienteSiHanHechoPagos56()
+    public async Task<IEnumerable<Cliente>> ClienteSiHanHechoPagos56()
     {
         return await _context.Clientes
        .Where(c => c.Pagos.Any())
@@ -477,11 +478,10 @@ algún pago. */
     {
         return await _context.Clientes
         .Include(c => c.Pedidos)
-
         .Select(c => new
         {
             c.Nombre_cliente,
-            pedido = c.Pagos.Count()
+            pedido = c.Pedidos.Count()
         }).ToListAsync();
     }
 
@@ -491,6 +491,10 @@ algún pago. */
     {
         return await _context.Clientes
        .Where(c => c.Pedidos.Any(p => p.Fecha_pedido.Year == 2008))
+       .Select(c => new 
+       {
+        c.Nombre_cliente
+       })
        .OrderBy(c => c.Nombre_cliente)
        .ToListAsync();
     }

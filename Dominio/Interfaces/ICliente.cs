@@ -72,16 +72,16 @@ realizado. (Sin utilizar INNER JOIN). */
      /* 51. Devuelve un listado que muestre solamente los clientes que no han 
     realizado ningún pago.
     */
-    public Task<IEnumerable<object>> ClienteNoHanHechoPagos51();
+    public Task<IEnumerable<Cliente>> ClienteNoHanHechoPagos51();
     /* 52. Devuelve un listado que muestre solamente los clientes que sí han realizado 
 algún pago. */
-    public Task<IEnumerable<object>> ClienteSiHanHechoPagos52();
+    public Task<IEnumerable<Cliente>> ClienteSiHanHechoPagos52();
     /* 55. Devuelve un listado que muestre solamente los clientes que no han 
     realizado ningún pago. */
-    public Task<IEnumerable<object>> ClienteNoHanHechoPagos55();
+    public Task<IEnumerable<Cliente>> ClienteNoHanHechoPagos55();
     /* 56. Devuelve un listado que muestre solamente los clientes que sí han realizado 
     algún pago. */
-    public Task<IEnumerable<object>> ClienteSiHanHechoPagos56();
+    public Task<IEnumerable<Cliente>> ClienteSiHanHechoPagos56();
     /* 57. Devuelve el listado de clientes indicando el nombre del cliente y cuántos 
     pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no 
     han realizado ningún pedido. */

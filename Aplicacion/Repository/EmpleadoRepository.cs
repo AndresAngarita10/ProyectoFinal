@@ -204,13 +204,15 @@ la compra de algún producto de la gama Frutales. */
     }
 
     /*  29. ¿Cuántos empleados hay en la compañía? */
-    public async Task<int> NumeroEmpleados29()
+    public async Task<object> NumeroEmpleados29()
     {
         var numeroEmpleados = await _context.Empleados
             .Select(e => e.Nombre)
             .CountAsync();
         Console.WriteLine($"Número de empleados: {numeroEmpleados}");
-        return numeroEmpleados;
+        return new {
+            numero_empleados = numeroEmpleados
+        };
     }
 
     /* 35. Devuelve el nombre de los representantes de ventas y el número de clientes 

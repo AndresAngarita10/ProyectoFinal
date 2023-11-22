@@ -1,11 +1,14 @@
 
 using API.Dtos;
+using API.Helpers.Errors;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 
 public class PedidoController : BaseApiController
 {
@@ -35,6 +38,16 @@ public class PedidoController : BaseApiController
         var entidad = await unitofwork.Pedidos.DistintosEstadosPedido();
         return mapper.Map<List<object>>(entidad);
     }
+    [HttpGet("consulta2")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<object>>> DistintosEstadosPedido([FromQuery] Params paisParams)
+    {
+        var entidad = await unitofwork.Pedidos.DistintosEstadosPedido(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+        var listEntidad = mapper.Map<List<object>>(entidad.registros);
+        return new Pager<object>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+    }
     
     [HttpGet("consulta4")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -43,6 +56,16 @@ public class PedidoController : BaseApiController
     {
         var entidad = await unitofwork.Pedidos.ListadoPedidosNoEntregadosATiempo();
         return mapper.Map<List<object>>(entidad);
+    }
+    [HttpGet("consulta4")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<object>>> ListadoPedidosNoEntregadosATiempo([FromQuery] Params paisParams)
+    {
+        var entidad = await unitofwork.Pedidos.ListadoPedidosNoEntregadosATiempo(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+        var listEntidad = mapper.Map<List<object>>(entidad.registros);
+        return new Pager<object>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
     
     [HttpGet("consulta5")]
