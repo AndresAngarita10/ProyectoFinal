@@ -35,7 +35,7 @@ public class PagoController : BaseApiController
         var entidad = await unitofwork.Pagos.ListadoConPagos2008YPaypal();
         return mapper.Map<List<object>>(entidad);
     }
-    [HttpGet("consulta8")]
+   /*  [HttpGet("consulta8")]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,7 +44,7 @@ public class PagoController : BaseApiController
         var entidad = await unitofwork.Pagos.ListadoConPagos2008YPaypal(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
         var listEntidad = mapper.Map<List<object>>(entidad.registros);
         return new Pager<object>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
-    }
+    } */
     
     [HttpGet("consulta9")]
     [ProducesResponseType(StatusCodes.Status200OK)]

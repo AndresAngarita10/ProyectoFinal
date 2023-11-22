@@ -68,7 +68,7 @@ public class PagoRepository : GenericRepoStr<Pago>, IPago
         return (totalRegistros, registros);
     }
 
-    public async Task<(int totalRegistros, object registros)> ListadoConPagos2008YPaypal(int pageIndez, int pageSize, string search) // 17
+    /* public async Task<(int totalRegistros, object registros)> ListadoConPagos2008YPaypal(int pageIndez, int pageSize, string search) // 17
     {
         var query = (
              _context.Pagos
@@ -95,7 +95,7 @@ public class PagoRepository : GenericRepoStr<Pago>, IPago
 
         return (totalRegistros, registros);
     }
-
+ */
     /*     9. Devuelve un listado con todas las formas de pago que aparecen en la 
     tabla pago. Tenga en cuenta que no deben aparecer formas de pago 
     repetidas. */
@@ -109,11 +109,7 @@ public class PagoRepository : GenericRepoStr<Pago>, IPago
             })
             .ToListAsync();
     }
-<<<<<<< HEAD
     public async Task<(int totalRegistros, object registros)> ListadoConTodasLasFormasDePago(int pageIndez, int pageSize, string search) 
-=======
-    public async Task<(int totalRegistros, object registros)> ListadoConTodasLasFormasDePago(int pageIndez, int pageSize, string search) // 17
->>>>>>> 8538d34da283e7ef8d7ec7294af94aee6f1d892a
     {
         var query = (
             _context.Pagos
