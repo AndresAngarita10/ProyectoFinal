@@ -47,21 +47,21 @@ public class ProductoRepository : GenericRepoStr<Producto>, IProducto
           })
           .ToListAsync();
     }
-    public async Task<(int totalRegistros, object registros)> ListProductosGammaOrnamentales(int pageIndez, int pageSize, string search)
+    public async Task<(int totalRegistros, object registros)> ListProductosGammaOrnamentales(int pageIndez, int pageSize, string search) // 22
     {
         var query = (
-            _context.Productos
-            .Where(p => p.GamaIdFk.ToLower().Equals("ornamentales"))
-            .Where(p => p.Cantidad_en_stock > 100)
-            .OrderByDescending(p => p.Precio_venta)
-            .Select(prod => new
-            {
-                prod.Id,
-                prod.Nombre,
-                prod.Precio_venta,
-                prod.Cantidad_en_stock,
-                prod.GamaIdFk,
-            })
+           _context.Productos
+          .Where(p => p.GamaIdFk.ToLower().Equals("ornamentales"))
+          .Where(p => p.Cantidad_en_stock > 100)
+          .OrderByDescending(p => p.Precio_venta)
+          .Select(prod => new
+          {
+              prod.Id,
+              prod.Nombre,
+              prod.Precio_venta,
+              prod.Cantidad_en_stock,
+              prod.GamaIdFk,
+          })
             );
 
         if (!string.IsNullOrEmpty(search))
@@ -92,10 +92,10 @@ public class ProductoRepository : GenericRepoStr<Producto>, IProducto
             prod.Nombre
         }).ToListAsync();
     }
-    public async Task<(int totalRegistros, object registros)> ProductosNuncaEnPedidos24(int pageIndez, int pageSize, string search)
+    public async Task<(int totalRegistros, object registros)> ProductosNuncaEnPedidos24(int pageIndez, int pageSize, string search) // 22
     {
         var query = (
-            _context.Productos
+           _context.Productos
             .Include(p => p.DetallePedidos)
             .Where(p => !p.DetallePedidos.Any())
             .Select(prod => new

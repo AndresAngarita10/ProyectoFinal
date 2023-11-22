@@ -37,7 +37,7 @@ public class PedidoRepository : GenericRepoInt<Pedido>, IPedido
                     Estado = grupo.Key
                 }).ToListAsync();
     }
-    public async Task<(int totalRegistros, object registros)> DistintosEstadosPedido(int pageIndez, int pageSize, string search)
+    public async Task<(int totalRegistros, object registros)> DistintosEstadosPedido(int pageIndez, int pageSize, string search) // 
     {
         var query = (
             _context.Pedidos
@@ -81,7 +81,7 @@ tiempo. */
             }).ToListAsync();
 
     }
-    public async Task<(int totalRegistros, object registros)> ListadoPedidosNoEntregadosATiempo(int pageIndez, int pageSize, string search)
+    public async Task<(int totalRegistros, object registros)> ListadoPedidosNoEntregadosATiempo(int pageIndez, int pageSize, string search) // 22
     {
         var query = (
             _context.Pedidos

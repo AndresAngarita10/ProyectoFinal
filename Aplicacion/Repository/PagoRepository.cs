@@ -68,6 +68,34 @@ public class PagoRepository : GenericRepoStr<Pago>, IPago
         return (totalRegistros, registros);
     }
 
+    public async Task<(int totalRegistros, object registros)> ListadoConPagos2008YPaypal(int pageIndez, int pageSize, string search) // 17
+    {
+        var query = (
+             _context.Pagos
+            .Where(p => p.Fecha_pago.Year == 2008 && p.Forma_pago.ToLower().Equals("paypal"))
+            .Select(pago => new
+            {
+                pago.Id,
+                pago.Fecha_pago,
+                pago.Forma_pago
+            })
+            );
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Id.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Id);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
+
     /*     9. Devuelve un listado con todas las formas de pago que aparecen en la 
     tabla pago. Tenga en cuenta que no deben aparecer formas de pago 
     repetidas. */
@@ -81,7 +109,11 @@ public class PagoRepository : GenericRepoStr<Pago>, IPago
             })
             .ToListAsync();
     }
+<<<<<<< HEAD
     public async Task<(int totalRegistros, object registros)> ListadoConTodasLasFormasDePago(int pageIndez, int pageSize, string search) 
+=======
+    public async Task<(int totalRegistros, object registros)> ListadoConTodasLasFormasDePago(int pageIndez, int pageSize, string search) // 17
+>>>>>>> 8538d34da283e7ef8d7ec7294af94aee6f1d892a
     {
         var query = (
             _context.Pagos
@@ -126,10 +158,10 @@ de los años que aparecen en la tabla pagos. */
         return await _context.Pagos
            .GroupBy(p => p.Fecha_pago.Year)
            .Select(pago => new
-            {
-                año = pago.Key,
-                SumaTotal = pago.Sum(p => p.Total)
-            })
+           {
+               año = pago.Key,
+               SumaTotal = pago.Sum(p => p.Total)
+           })
            .ToListAsync();
     }
 

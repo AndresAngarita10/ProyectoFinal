@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
-
 public class EmpleadoController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -38,6 +37,7 @@ public class EmpleadoController : BaseApiController
         var entidad = await unitofwork.Empleados.ListadoEmpleadoConJefes17();
         return mapper.Map<List<object>>(entidad);
     }
+    
     [HttpGet("consulta17")]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -57,6 +57,7 @@ public class EmpleadoController : BaseApiController
         var entidad = await unitofwork.Empleados.ListadoEmpleadoSinCliente22();
         return mapper.Map<List<object>>(entidad);
     }
+    
     [HttpGet("consulta22")]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]

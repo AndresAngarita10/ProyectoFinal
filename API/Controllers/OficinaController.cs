@@ -28,6 +28,7 @@ public class OficinaController : BaseApiController
         var entidad = await unitofwork.Oficinas.GetAllAsync();
         return mapper.Map<List<OficinaDto>>(entidad);
     }
+    
     [HttpGet]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]

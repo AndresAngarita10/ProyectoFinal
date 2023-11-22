@@ -28,6 +28,7 @@ public class GamaProductoController : BaseApiController
         var entidad = await unitofwork.GamaProductos.GetAllAsync();
         return mapper.Map<List<GamaProductoDto>>(entidad);
     }
+     
     [HttpGet]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
